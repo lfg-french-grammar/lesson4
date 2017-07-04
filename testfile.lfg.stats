@@ -1,0 +1,38 @@
+((1) (1 0.01 16) (4 words))
+((2) (1 0.00 16) (4 words))
+((3) (1 0.01 16) (4 words))
+((4) (1 0.00 19) (5 words))
+((5) (1 0.00 31) (9 words))
+((6) (1 0.01 24) (7 words))
+((7) (1 0.00 24) (7 words))
+((8) (1 0.01 21) (6 words))
+((9) (2 0.00 35) (10 words))
+((10) (1 0.00 16) (4 words))
+((11) (1 0.01 30) (8 words))
+((12) (1 0.01 27) (7 words))
+((13) (1 0.01 27) (7 words))
+((14) (1 0.00 38) (10 words))
+((15) (1 0.01 44) (12 words))
+((16) (1 0.00 63) (18 words))
+((17) (1 0.01 29) (8 words))
+((18) (1 0.01 23) (6 words))
+
+XLE release of Jan 21, 2008 10:36.
+Grammar = /Users/shane/Dropbox/XLE/book/lesson4/basic-french.lfg.
+Grammar last modified on Jun 03, 2016 12:54.
+Host machine is Shanes-iMac.local.
+18 sentences, 0 errors, 0 mismatches
+timeout = 100
+max_xle_scratch_storage = 100 MB
+prune_subtree_location = 1
+max_new_events_per_graph_when_skimming = 500
+maximum raw subtrees per sentence = 115 (#16)
+maximum event count per sentence = 2289
+average event count per graph = 38.21
+0.10 CPU secs total, 0.01 CPU secs max
+elapsed time = 0 seconds
+  range parsed failed  words   seconds  subtrees     optimal  suboptimal
+   1-10     16      0   6.62      0.01     24.50        1.06    0.00E+00
+  11-20      2      0  15.00      0.01     53.50        1.00    0.00E+00
+    all     18      0   7.56      0.01     27.72        1.06    0.00E+00
+0.04 of the variance in seconds is explained by the number of subtrees

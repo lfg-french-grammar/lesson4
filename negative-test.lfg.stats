@@ -1,0 +1,36 @@
+((1) (0 0.01 0) (4 words))
+((2) (0 0.00 5) (4 words))
+((3) (0 0.00 7) (4 words))
+((4) (0 0.00 5) (5 words))
+((5) (0 0.00 12) (4 words))
+((6) (0 0.01 7) (4 words))
+((7) (0 0.00 7) (4 words))
+((8) (0 0.01 7) (4 words))
+((9) (0 0.00 7) (4 words))
+((10) (0 0.00 7) (4 words))
+((11) (0 0.01 7) (4 words))
+((12) (0 0.00 23) (7 words))
+((13) (0 0.00 23) (7 words))
+((14) (0 0.01 23) (7 words))
+((15) (0 0.01 23) (7 words))
+((16) (0 0.00 23) (7 words))
+((17) (0 0.01 34) (11 words))
+((18) (0 0.00 34) (10 words))
+((19) (0 0.00 34) (10 words))
+((20) (0 0.01 34) (10 words))
+
+XLE release of Jan 21, 2008 10:36.
+Grammar = /Users/shane/Dropbox/XLE/book/lesson4/basic-french.lfg.
+Grammar last modified on Jun 03, 2016 12:54.
+Host machine is Shanes-iMac.local.
+20 sentences, 0 errors, 0 mismatches
+20 sentences had 0 parses
+timeout = 100
+max_xle_scratch_storage = 100 MB
+prune_subtree_location = 1
+max_new_events_per_graph_when_skimming = 500
+maximum raw subtrees per sentence = 57 (#17)
+maximum event count per sentence = 998
+average event count per graph = 29.63
+0.08 CPU secs total, 0.01 CPU secs max
+elapsed time = 0 seconds

@@ -1,0 +1,81 @@
+# SENTENCE_ID: 001
+
+je attende le chevalier . (0 0.01 0)
+
+# SENTENCE_ID: 002
+
+le blanc chevalier arrive . (0 0.00 5)
+
+# SENTENCE_ID: 003
+
+le chevalier prétendu arrive . (0 0.00 7)
+
+# SENTENCE_ID: 004
+
+cette électorale campagne est importante . (0 0.00 5)
+
+# SENTENCE_ID: 005
+
+cette campagne est électorale . (0 0.00 12)
+
+# SENTENCE_ID: 006
+
+le chevalier blanche arrive . (0 0.01 7)
+
+# SENTENCE_ID: 007
+
+la fée blanc arrive . (0 0.00 7)
+
+# SENTENCE_ID: 008
+
+les fées blanche attendent . (0 0.01 7)
+
+# SENTENCE_ID: 009
+
+les chevaliers blanc attendent . (0 0.00 7)
+
+# SENTENCE_ID: 010
+
+le fée blanches arrive . (0 0.00 7)
+
+# SENTENCE_ID: 011
+
+le chevalier blancs arrive . (0 0.01 7)
+
+# SENTENCE_ID: 012
+
+le géant veut que la fée attend . (0 0.00 23)
+
+# SENTENCE_ID: 013
+
+le géant veut si la fée attende . (0 0.00 23)
+
+# SENTENCE_ID: 014
+
+le géant veut si la fée attend . (0 0.01 23)
+
+# SENTENCE_ID: 015
+
+le géant sait que la dame attende . (0 0.01 23)
+
+# SENTENCE_ID: 016
+
+le géant sait si la dame attende . (0 0.00 23)
+
+# SENTENCE_ID: 017
+
+le géant veut que la fée sache que la dame attende . (0 0.01 34)
+
+# SENTENCE_ID: 018
+
+le géant demande à la reine si la fée attende . (0 0.00 34)
+
+# SENTENCE_ID: 019
+
+le géant demande à la reine que la fée attend . (0 0.00 34)
+
+# SENTENCE_ID: 020
+
+le géant demande à la reine que la fée attende . (0 0.01 34)
+
+# 20 sentences, 0.08 CPU secs total, 0.01 CPU secs max (06/03/16)

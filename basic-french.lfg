@@ -1,0 +1,802 @@
+BASIC   FRENCH   CONFIG (1.0)
+  ROOTCAT   Root. 
+  LEXENTRIES   (BASIC FRENCH).
+  RULES   (BASIC FRENCH).
+  TEMPLATES (BASIC FRENCH).
+  GOVERNABLERELATIONS SUBJ OBJ OBJ2 OBL COMP XCOMP.
+  SEMANTICFUNCTIONS ADJ.
+  CHARACTERENCODING utf-8.
+
+----
+
+BASIC   FRENCH   RULES (1.0)
+
+
+   "R0" Root --> S: (^ MOOD) =c IND ; PUNCT. 
+
+   "R1"   S --> (NP: (^ SUBJ)=!) VP: ^=! (^ TENSE).	
+
+   "R2" VP --> V' ({ 
+	NP: (^ OBJ)=!; PP: (^ OBJ2)=! (! CASE)=c À
+ 	| NP: (^ OBJ)=! 
+	| PP: (^ OBL)=!
+	| PP: (^ XCOMP)=!
+	| AP: (^ XCOMP)=! (! ATYPE)=PREDIC
+	| PP: (^ OBJ2)=! (! CASE)=c À; CP: (^ COMP)=! 
+	| CP: (^ COMP)=!
+	}) 
+	PP*: ! $ (^ ADJ) (! SUBJ PRED)='PRO' 
+	(! SUBJ PRON_TYPE)=IMPLICIT.
+
+   "R3"	  V' --> (CL: (^ SUBJ)=!) V.
+
+   "R4" N' --> AP*: ! $ (^ ADJ) "(^ GEN) = (! SUBJ GEN)
+		    (^ NUM) = (! SUBJ NUM)
+		    (^ GEN) = (! SUBJ GEN)
+		    (^ PRED) = (! SUBJ PRED)"
+		    (! POSITION)=PRENOM
+		    (! ATYPE)=ATTRIB
+		    ^ = (! SUBJ);
+ 	  N: ^=! (^ PERS)=3;
+ 	  AP*: ! $ (^ ADJ) "(^ GEN) = (! SUBJ GEN)"
+	       "(^ NUM) = (! SUBJ NUM)
+	       (^ GEN) = (! SUBJ GEN)
+	       (^ PRED) = (! SUBJ PRED)" 
+	       (! POSITION)=POSTNOM
+	       (! ATYPE)=ATTRIB
+	       ^ = (! SUBJ).
+
+   "R5" CP --> C S.
+
+   "R6" NP --> D N'.	
+
+   "R7"	  AP --> (DEG) A.
+
+   "R8"   PP --> { P NP: (^ OBJ)=! | PA N | P NP}.
+
+  
+----
+
+BASIC   FRENCH   TEMPLATES (1.0)
+
+IFF(P Q) = "P if and only Q (KING 2004)"
+              {P Q | ~P ~Q}.
+
+   IND = (^ MOOD)=IND.
+   SBJV = (^ MOOD)=SUBJUNCT.
+   PRS = (^ TENSE)=PRES.
+
+   INTRANS(P) = (^ PRED) = 'P<(^ SUBJ)>'.
+   TRANS(P) = (^ PRED) = 'P<(^ SUBJ)(^ OBJ)>'.
+   OPT-TRANS(P) = { @(INTRANS P) | @(TRANS P) }.
+
+   V-AGR(P N) = (^ SUBJ PERS) = P
+	  (^ SUBJ NUM) = N.
+  
+   F = (^ GEN)=FEM.
+   M = (^ GEN)=MAS.
+   SG = (^ NUM)=SG.
+   PL = (^ NUM)=PL.
+   N(P) = (^ PRED)='P'.
+
+   F-SG(P) = @(N P)
+	  @F 
+	  @SG.
+   F-PL(P) = @(N P)
+	  @F
+	  @PL.
+   M-SG(P) = @(N P)
+	  @M
+	  @SG.
+   M-PL(P) = @(N P)
+	  @M
+	  @PL.
+
+"templates for adjectives"
+
+   GEN(G) = (^ SUBJ GEN) = G.
+   NUM(N) = (^ SUBJ NUM) = N.
+   A-AGR(G N) = @(GEN G)
+	  @(NUM N).
+
+   A(P G N) = (^ PRED) = 'P<(^ SUBJ)>'
+	  @(A-AGR G N).
+   A-NUM(P N) = (^ PRED) = 'P<(^ SUBJ)>'
+	  @(NUM N).
+   ATT = (^ ATYPE) = ATTRIB.
+   PRED = (^ ATYPE) = PREDIC.
+   PRE = (^ POSITION) = PRENOM.
+   POST = (^ POSITION) = POSTNOM.
+   ATT-PRE = @(IFF @ATT @PRE).
+   ATT-POST = @(IFF @ATT @POST).
+   COLOUR = @ATT-POST.
+   GEO = @COLOUR.
+   "REL(P G N) = @(A P G N)
+	  @ATT
+	  @POST."
+   REL = @ATT
+	 @POST.
+   GL(G) = (^ GLOSS TRANS DEU) = G.
+   AMB2(G1 G2) = { @ATT @PRE @(GL G1) |
+	    @ATT-POST @(GL G2)}.
+   AMB1(G1 G2) = { @ATT-PRE @(GL G1) |
+	    @ATT-POST @(GL G2)}.
+
+   AMB3(G1 G2) = { @ATT @PRE @(GL G1) | @(GL G2) }.
+   A-PRE = @ATT
+	  @PRE.
+
+----
+
+BASIC FRENCH LEXICON (1.0)
+fidèle A * @(A-NUM FIDÈLE SG).
+
+fidèles A * @(A-NUM FIDÈLE PL).
+
+bleu 	  A * @(A BLEU MAS SG)
+	      @COLOUR.
+
+paternel  A * @(A PATERNEL MAS SG)
+	      @REL.
+
+français  A * @(A BLEU MAS SG)
+	      @GEO.
+
+anciens   A * @(AMB3 EHEMALIG ALT)
+	      @(A ANCIEN MAS PL).
+
+ancien   A * @(AMB3 EHEMALIG ALT)
+	      @(A ANCIEN MAS SG).
+
+attend 	  V * { (^ PRED)='ATTENDRE<(^ SUBJ)(^ OBJ)>' |
+		(^ PRED)='ATTENDRE<(^ SUBJ)>'}
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+attende   V * { (^ PRED)='ATTENDRE<(^ SUBJ)>'|(^ PRED)='ATTENDRE<(^ SUBJ)(^ OBJ)>'}
+	      (^ SUBJ NUM)=SG
+	      { (^ SUBJ PERS)=3 |
+		(^ SUBJ PERS)=1}
+	      (^ TENSE)=PRES
+	      (^ MOOD)=SUBJUNCT.
+
+attendent V * { (^ PRED)='ATTENDRE<(^ SUBJ)(^ OBJ)>' |
+		(^ PRED)='ATTENDRE<(^ SUBJ)>'}
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=PL
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND. "TODO: all inflected verbs should have these two features"
+
+attendre  V * { (^ PRED)='ATTENDRE<(^ SUBJ)(^ OBJ)>' |
+		(^ PRED)='ATTENDRE<(^ SUBJ)>'}
+	      (^ VFORM)=INF.
+
+combattre V * (^ PRED)='COMBATTRE<(^ SUBJ)(^ OBJ)>'
+	      (^ VFORM)=INF.
+
+regarder V * (^ PRED)='REGARDER<(^ SUBJ)(^ OBJ)>'
+	      (^ VFORM)=INF.
+
+danser    V * (^ PRED)='DANSER<(^ SUBJ)>'
+              (^ VFORM)=INF.
+
+chanter    V * (^ PRED)='CHANTER<(^ SUBJ)>'
+              (^ VFORM)=INF.
+
+arrive 	  V * (^ PRED)='ARRIVER<(^ SUBJ)>'
+	      (^ SUBJ NUM)=SG
+	      { (^ SUBJ PERS) = 1 | (^ SUBJ PERS) = 3}
+	      (^ TENSE)=PRES
+	      { (^ MOOD)=IND | (^ MOOD)=SUBJUNCT}.
+
+pleurer    V * (^ PRED)='PLEURER<(^ SUBJ)>'
+              (^ VFORM)=INF.
+
+rencontre   V * (^ PRED)='RENCONTRER<(^ SUBJ)(^ OBJ)>'
+	      { (^ SUBJ PERS)=1 | (^ SUBJ PERS)=3}
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      {(^ MOOD)=IND | (^ MOOD)=SUBJUNCT}.
+
+raconte   V * (^ PRED)='RACONTER<(^ SUBJ)(^ OBJ)>'
+	      { (^ SUBJ PERS)=1 | (^ SUBJ PERS)=3}
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      {(^ MOOD)=IND | (^ MOOD)=SUBJUNCT}.
+
+cherche   V * (^ PRED)='CHERCHER<(^ SUBJ)(^ OBJ)>'
+	      { (^ SUBJ PERS)=1 | (^ SUBJ PERS)=3}
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+cherches  V * @(OPT-TRANS CHERCHER)
+	      { @IND | @SBJV}
+	      @(V-AGR 2 SG)
+	      @PRS.
+
+"cherches  V * (^ PRED)='CHERCHER<(^ SUBJ)(^ OBJ)>'
+	      (^ SUBJ PERS)=2
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND."
+
+cherchons V * (^ PRED)='CHERCHER<(^ SUBJ)(^ OBJ)>'
+	      (^ SUBJ PERS)=1
+	      (^ SUBJ NUM)=PL
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+cherchez  V * (^ PRED)='CHERCHER<(^ SUBJ)(^ OBJ)>'
+	      (^ SUBJ PERS)=2
+	      (^ SUBJ NUM)=PL
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+cherchent V * (^ PRED)='CHERCHER<(^ SUBJ)(^ OBJ)>'
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=PL
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+dépend 	  V * (^ PRED)='DÉPENDRE<(^ SUBJ)(^ OBL)>'
+	      (^ OBL CASE)=c DE
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+donne 	  V * { (^ PRED)='DONNER<(^ SUBJ)(^ OBJ)(^ OBJ2)>' 
+		"(^ OBJ2 CASE)=c À" |
+		(^ PRED)='DONNER<(^ SUBJ)(^ OBJ)>'}
+	      { (^ SUBJ PERS)=1 | (^ SUBJ PERS)=3 }
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+est 	  V * (^ PRED)='ÊTRE<(^ SUBJ)(^ XCOMP)>'
+	      (^ SUBJ)=(^ XCOMP SUBJ)
+	      @(CAT (^ XCOMP) {AP PP})
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+sont 	  V * (^ PRED)='ÊTRE<(^ SUBJ)(^ XCOMP)>'
+	      (^ SUBJ)=(^ XCOMP SUBJ)
+	      @(CAT (^ XCOMP) {AP PP})
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=PL
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+semble 	  V * (^ PRED)='SEMBLER<(^ SUBJ)(^ XCOMP)>'
+	      (^ SUBJ)=(^ XCOMP SUBJ)
+	      @(CAT (^ XCOMP) AP)
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+passe 	  V * { (^ PRED)='PASSER<(^ SUBJ)>' |
+		(^ PRED)='PASSER<(^ OBJ)>(^ SUBJ)'
+		(^ SUBJ FORM)=c IL }
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+passent   V * (^ PRED)='PASSER<(^ SUBJ)>'
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=PL
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+passer   V * (^ PRED)='PASSER<(^ SUBJ)>'
+	      (^ VFORM)=INF.
+
+pleut 	  V * (^ PRED)='PLEUVOIR<>(^ SUBJ)'
+	      (^ SUBJ FORM)=c IL
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+"(^ SUBJ PRON-TYPE)=c EXPL"
+"pleut 	  V * (^ PRED)='PLEUVOIR<>(^ SUBJ)'
+	      ~ (^ SUBJ PRED)
+	      (^ SUBJ PERS)=3
+	      (^ SUBJ NUM)=SG."
+
+veut 	  V * (^ PRED)='VOULOIR<(^ SUBJ)(^ COMP)>'
+	      (^ COMP MOOD) ="c" SUBJUNCT
+	      (^ COMP CLAUSE_TYPE) ="c" DECLAR
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+croit 	  V * (^ PRED)='CROIRE<(^ SUBJ)(^ XCOMP)>'
+	      (^ XCOMP SUBJ)=(^ SUBJ)
+	      ~ (^ XCOMP CFORM) 
+	      (^ XCOMP VFORM) =c INF
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+
+voit 	  V * { (^ PRED)='VOIR<(^ SUBJ)(^ OBJ)(^ XCOMP)>'
+		(^ XCOMP SUBJ)=(^ OBJ)
+		~ (^ XCOMP CFORM)
+		(^ XCOMP VFORM) =c INF
+	      | 
+		(^ PRED)='VOIR<(^ SUBJ)(^ OBJ)>' }
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+pouvoir   V * (^ PRED)='POUVOIR<(^ SUBJ)(^ XCOMP)>'
+	      (^ XCOMP SUBJ)=(^ SUBJ)
+	      ~ (^ XCOMP CFORM)
+	      (^ XCOMP VFORM) =c INF
+	      (^ VFORM)=INF.
+
+
+voir 	  V * { (^ PRED)='VOIR<(^ SUBJ)(^ OBJ)(^ XCOMP)>'
+		(^ XCOMP SUBJ)=(^ OBJ)
+		~ (^ XCOMP CFORM)
+		(^ XCOMP VFORM) =c INF
+	      | 
+		(^ PRED)='VOIR<(^ SUBJ)(^ OBJ)>' }
+	      (^ VFORM)=INF.
+
+entendre 	  V * { (^ PRED)='ENTENDRE<(^ SUBJ)(^ OBJ)(^ XCOMP)>'
+		(^ XCOMP SUBJ)=(^ OBJ)
+		~ (^ XCOMP CFORM)
+		(^ XCOMP VFORM) =c INF
+	      | 
+		(^ PRED)='ENTENDRE<(^ SUBJ)(^ OBJ)>' }
+	      (^ VFORM)=INF.
+
+
+"demande   V * { (^ PRED)='DEMANDER<(^ SUBJ)(^ OBJ2)(^ XCOMP)>'
+		(^ XCOMP SUBJ)=(^ OBJ2) 
+		(^ XCOMP CFORM) =c DE
+	      | 
+		(^ PRED)='DEMANDER<(^ SUBJ)(^ XCOMP)>'
+		(^ XCOMP SUBJ)=(^ SUBJ)
+		(^ XCOMP CFORM) =c À
+	       |
+		(^ PRED)='DEMANDER<(^ SUBJ)(^ OBJ2)(^ COMP)>'
+		(^ COMP MOOD) =c IND
+		(^ COMP CLAUSE_TYPE) =c INTERR}
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND."
+
+
+demande   V * (^ PRED)='DEMANDER<(^ SUBJ)(^ OBJ2)(^ COMP)>'
+	      (^ COMP MOOD) ="c" IND
+	      (^ COMP CLAUSE_TYPE) ="c" INTERR
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      {(^ MOOD)=IND | (^ MOOD)=SUBJUNCT}.
+
+	      permet V * (^ PRED)='PERMETTRE<(^ SUBJ)(^ OBJ2)(^ XCOMP)>'
+	      (^ XCOMP SUBJ)=(^ OBJ2) "TODO: OBJ2"
+	      (^ XCOMP CFORM) =c DE
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+exige 	  V * (^ PRED)='EXIGER<(^ SUBJ)(^ XCOMP)>'
+	      (^ XCOMP SUBJ)=(^ SUBJ)
+	      (^ XCOMP CFORM) =c DE
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+sait 	  V * (^ PRED)='SAVOIR<(^ SUBJ)(^ COMP)>'
+	      (^ COMP MOOD) ="c" IND
+	      "(^ COMP CLAUSE_TYPE) =c DECLAR" "underspecified"
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+sache 	  V * (^ PRED)='SAVOIR<(^ SUBJ)(^ COMP)>'
+	      (^ COMP MOOD) =c IND
+	      "(^ COMP CLAUSE_TYPE) =c DECLAR" "underspecified"
+	      (^ SUBJ NUM)=SG
+	      { (^ SUBJ PERS)=1 |
+		(^ SUBJ PERS)=3}
+	      (^ TENSE)=PRES
+	      (^ MOOD)=SUBJUNCT.
+
+commence  V * (^ PRED)='COMMENCER<(^ SUBJ)(^ XCOMP)>'
+	      (^ XCOMP SUBJ)=(^ SUBJ)
+	      (^ XCOMP CFORM)=c À
+	      (^ XCOMP VFORM) =c INF
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+cesse 	  V * (^ PRED)='CESSER<(^ SUBJ)(^ XCOMP)>'
+	      (^ XCOMP SUBJ)=(^ SUBJ)
+	      (^ XCOMP CFORM)=c DE
+	      (^ XCOMP VFORM) =c INF
+	      (^ SUBJ NUM)=SG
+	      (^ SUBJ PERS)=3
+	      (^ TENSE)=PRES
+	      (^ MOOD)=IND.
+
+"nouns"
+
+"fée 	  N * (^ PRED)='FÉE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=SG.
+
+fées 	  N * (^ PRED)='FÉE'
+	      (^ GEN)=FEM
+	      (^ NUM)=PL."
+
+fée 	  N * @(F-SG FÉE).
+
+fées 	  N * @(F-PL FÉE).
+
+histoire   N * (^ PRED)='HISTOIRE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=SG.
+
+histoires   N * (^ PRED)='HISTOIRE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=PL.
+
+chemise   N * (^ PRED)='CHEMISE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=SG.
+
+chemises  N * (^ PRED)='CHEMISE'
+	      (^ GEN)=FEM
+	      (^ NUM)=PL.
+
+"chevalier N * (^ PRED)='CHEVALIER'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+chevaliers N * (^ PRED)='CHEVALIER'
+	       (^ GEN)=MAS 
+	       (^ NUM)=PL."
+
+chevalier N * @(M-SG CHEVALIER).
+
+chevaliers N * @(M-PL CHEVALIER).
+
+"couvent N * (^ PRED)='COUVENT'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG."
+
+couvent   N * (^ PRED)='COUVENT'
+	      @M
+	      @SG.
+
+bois N * (^ PRED)='BOIS'
+	      (^ GEN)=MAS.
+
+château N * (^ PRED)='CHÂTEAU'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+châteaux N * (^ PRED)='CHÂTEAU'
+	       (^ GEN)=MAS 
+	       (^ NUM)=PL.
+
+
+nain N * (^ PRED)='NAIN'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+joyaux 	  N * (^ PRED)='JOYAU'
+	      (^ GEN)=MAS 
+	      (^ NUM)=PL.
+
+géant 	  N * (^ PRED)='GÉANT'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+foulard   N * (^ PRED)='FOULARD'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+gant   N * (^ PRED)='GANT'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+livre   N * (^ PRED)='LIVRE'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+livres   N * (^ PRED)='LIVRE'
+	      (^ GEN)=MAS 
+	      (^ NUM)=PL.
+
+rossignol N * (^ PRED)='ROSSIGNOL'
+	      (^ GEN)=MAS 
+	      (^ NUM)=SG.
+
+campagne  N * (^ PRED)='CAMPAGNE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=SG.
+
+dame 	  N * (^ PRED)='DAME'
+	      (^ GEN)=FEM 
+	      (^ NUM)=SG.
+
+dames 	  N * (^ PRED)='DAME'
+	      (^ GEN)=FEM 
+	      (^ NUM)=PL.
+
+reine 	  N * (^ PRED)='REINE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=SG.
+
+"reines 	  N * (^ PRED)='REINE'
+	      (^ GEN)=FEM 
+	      (^ NUM)=PL."
+
+reines 	  N * (^ PRED)='REINE'
+	      @F
+	      @PL.
+
+chambre   N * (^ PRED)='CHAMBRE'
+	      (^ GEN)=FEM
+	      (^ NUM)=SG. 
+
+poche   N * (^ PRED)='POCHE'
+	      (^ GEN)=FEM
+	      (^ NUM)=SG. 
+	      
+je 	  CL * (^ PRED)='PRO'
+	       (^ NUM)=SG
+	       (^ PERS)=1
+	       (^ CASE)=NOM.
+
+tu 	  CL * (^ PRED)='PRO'
+	       (^ NUM)=SG
+	       (^ PERS)=2
+	       (^ CASE)=NOM.
+
+elle 	  CL * (^ PRED)='PRO'
+	       (^ GEN)=FEM
+	       (^ NUM)=SG
+	       (^ PERS)=3
+	       (^ CASE)=NOM.
+
+il 	  CL * { (^ PRED)='PRO' | (^ FORM) = IL}
+	       (^ GEN)=MAS
+	       (^ NUM)=SG
+	       (^ PERS)=3
+	       (^ CASE)=NOM.
+
+nous 	  CL * (^ PRED)='PRO'
+	       (^ NUM)=PL
+	       (^ PERS)=1
+	       (^ CASE)=NOM.
+
+vous 	  CL * (^ PRED)='PRO'
+	       (^ NUM)=PL
+	       (^ PERS)=2
+	       (^ CASE)=NOM.
+
+ils 	  CL * (^ PRED)='PRO'
+	       (^ NUM)=PL
+	       (^ PERS)=3
+	       (^ CASE)=NOM.
+
+elles 	  CL * (^ PRED)='PRO'
+	       (^ GEN)=FEM
+	       (^ NUM)=PL
+	       (^ PERS)=3
+	       (^ CASE)=NOM.
+
+aimable   A * (^ PRED)='AIMABLE<(^ SUBJ)>'
+	      (^ SUBJ NUM)=SG.
+
+aimables  A * (^ PRED)='AIMABLE<(^ SUBJ)>'
+	      (^ SUBJ NUM)=PL.
+
+méchant   A * (^ PRED)='MÉCHANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=SG.
+
+méchante   A * (^ PRED)='MÉCHANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=SG.
+
+méchants   A * (^ PRED)='MÉCHANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=PL.
+
+méchantes   A * (^ PRED)='MÉCHANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=PL.
+
+vaillant   A * (^ PRED)='VAILLANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=SG.
+
+vaillante   A * (^ PRED)='VAILLANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=SG.
+
+vaillants   A * (^ PRED)='VAILLANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=PL.
+
+vaillantes   A * (^ PRED)='VAILLANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=PL.
+
+importante   A * (^ PRED)='IMPORTANT<(^ SUBJ)>'
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=SG.
+
+"prétendu  A * (^ PRED)='PRÉTENDU<(^ SUBJ)>'
+	      (^ ATYPE) = ATTRIB
+	      (^ POSITION)=PRENOM
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=SG."
+
+prétendu A * @(A PRÉTENDU MAS SG)
+		@A-PRE.
+
+propre 	  A * (^ PRED)='PROPRE<(^ SUBJ)>'
+	      { (^ POSITION)=PRENOM
+		(^ GLOSS)='OWN' |
+		(^ POSITION=POSTNOM
+		(^ GLOSS)='CLEAN'}
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=SG.
+
+"ancien 	  A * (^ PRED)='ANCIEN<(^ SUBJ)>'
+	      { @(IFF (^ ATYPE)=ATTRIB (^ POSITION)=PRENOM)
+		(^ GLOSS TRANS DEU)=EHEMALIG |
+		@(IFF (^ ATYPE)=ATTRIB (^ POSITION)=POSTNOM)
+		(^ GLOSS TRANS DEU)=ALT}
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=SG."
+
+anciennes A * (^ PRED)='ANCIEN<(^ SUBJ)>'
+	      { @(IFF (^ ATYPE)=ATTRIB (^ POSITION)=PRENOM)
+		(^ GLOSS TRANS DEU)=EHEMALIG |
+		@(IFF (^ ATYPE)=ATTRIB (^ POSITION)=POSTNOM)
+		(^ GLOSS TRANS DEU)=ALT}
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=PL.
+
+
+électorale A * (^ PRED)='ÉLECTORAL<(^ SUBJ)>'
+	       (^ ATYPE)=ATTRIB 
+	       (^ POSITION)=POSTNOM
+	       (^ SUBJ GEN)=FEM
+	       (^ SUBJ NUM)=SG.
+
+blanc 	  A * (^ PRED)='BLANC<(^ SUBJ)>'
+	      (^ POSITION)=POSTNOM
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=SG.
+
+blanche   A * (^ PRED)='BLANC<(^ SUBJ)>'
+	      @(IFF (^ ATYPE)=ATTRIB (^ POSITION)=POSTNOM)
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=SG.
+
+blancs 	  A * (^ PRED)='BLANC<(^ SUBJ)>'
+	      (^ POSITION)=POSTNOM
+	      (^ SUBJ GEN)=MAS
+	      (^ SUBJ NUM)=PL.
+
+blanches  A * (^ PRED)='BLANC<(^ SUBJ)>'
+	      (^ POSITION)=POSTNOM
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=PL.
+
+belle 	  A * (^ PRED)='BEAU<(^ SUBJ)>'
+	      (^ SUBJ GEN)=FEM
+	      (^ SUBJ NUM)=SG.
+
+belles 	  A * (^ PRED)='BEAU<(^ SUBJ)>'
+	      (^ SUBJ NUM)=PL.
+
+une 	  D * (^ GEN)=FEM 
+	      (^ NUM)=SG
+	      (^ SPEC)=INDEF.
+
+un 	  D * (^ GEN)=MAS 
+	      (^ NUM)=SG
+	      (^ SPEC)=INDEF.
+
+des 	  D * (^ NUM)=PL
+	      (^ SPEC)=INDEF;
+	  PA * (^ CASE)=DE
+	       (^ SPEC)=INDEF
+	       (^ NUM)=PL.
+
+la 	  D * (^ GEN)=FEM 
+	      (^ NUM)=SG
+	      (^ SPEC)=DEF.
+
+le 	  D * (^ GEN)=MAS 
+	      (^ NUM)=SG
+	      (^ SPEC)=DEF.
+
+les 	  D * (^ NUM)=PL
+	      (^ SPEC)=DEF.
+
+cette 	  D * (^ GEN)=FEM
+	      (^ NUM)=SG
+	      (^ SPEC)=DEM.
+
+ces 	  D * (^ NUM)=PL
+	      (^ SPEC)=DEM.
+
+son 	  D * (^ GEN)=MAS
+	      (^ NUM)=SG
+	      (^ POSS PRED)='PRO'
+	      (^ POSS NUM)=SG
+	      (^ POSS PERS)=3
+	      (^ SPEC)=DEF.
+
+sa 	  D * (^ GEN)=FEM
+	      (^ NUM)=SG
+	      (^ POSS PRED)='PRO'
+	      (^ POSS NUM)=SG
+	      (^ POSS PERS)=3
+	      (^ SPEC)=DEF.
+
+ses 	  D * (^ NUM)=PL
+	      (^ POSS PRED)='PRO'
+	      (^ POSS NUM)=SG
+	      (^ POSS PERS)=3
+	      (^ SPEC)=DEF.
+
+dans 	  P * (^ PRED)='DANS<(^ SUBJ)(^ OBJ)>'.
+
+à 	  P * (^ CASE)=À; 
+	  C * (^ CFORM)=À
+	      (^ VFORM) =c INF.
+
+de 	  P * (^ CASE)=DE;
+	  C * (^ CFORM)=DE
+	      (^ VFORM) =c INF.
+
+que 	  C * "(^ TENSE)"
+	      (^ CLAUSE_TYPE)=DECLAR.
+
+si 	  C * "(^ TENSE)"
+	      (^ CLAUSE_TYPE)=INTERR
+	      "(^ MOOD) =c IND".
+
+au 	  PA * (^ CASE)=À
+	       (^ SPEC)=DEF
+	       (^ GEN)=MAS
+	       (^ NUM)=SG.
+
+très 	  DEG * (^ DEGREE) = HIGH.
+
+plus 	  DEG * (^ DEGREE) = HIGHER.
+
+moins 	  DEG * (^ DEGREE) = LOWER.
+
+`. 	  PUNCT * (^ CLAUSE_TYPE)= DECLAR.
+
+----

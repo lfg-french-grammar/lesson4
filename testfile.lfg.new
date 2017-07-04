@@ -1,0 +1,73 @@
+# SENTENCE_ID: 001
+
+le vaillant chevalier arrive . (1 0.01 16)
+
+# SENTENCE_ID: 002
+
+le chevalier vaillant arrive . (1 0.00 16)
+
+# SENTENCE_ID: 003
+
+le chevalier blanc arrive . (1 0.01 16)
+
+# SENTENCE_ID: 004
+
+le prétendu chevalier blanc arrive . (1 0.00 19)
+
+# SENTENCE_ID: 005
+
+le chevalier attend la belle vaillante dame blanche aimable . (1 0.00 31)
+
+# SENTENCE_ID: 006
+
+la fée attend un chevalier très vaillant . (1 0.01 24)
+
+# SENTENCE_ID: 007
+
+la fée attend un très vaillant chevalier . (1 0.00 24)
+
+# SENTENCE_ID: 008
+
+cette campagne électorale est très importante . (1 0.01 21)
+
+# SENTENCE_ID: 009
+
+la fée raconte des histoires anciennes dans un ancien couvent . (2 0.00 35)
+
+# SENTENCE_ID: 010
+
+le château est ancien . (1 0.00 16)
+
+# SENTENCE_ID: 011
+
+la fée sait que le nain est méchant . (1 0.01 30)
+
+# SENTENCE_ID: 012
+
+la reine sait si la fée arrive . (1 0.01 27)
+
+# SENTENCE_ID: 013
+
+le chevalier veut que la fée attende . (1 0.01 27)
+
+# SENTENCE_ID: 014
+
+le chevalier demande à la reine si la fée arrive . (1 0.00 38)
+
+# SENTENCE_ID: 015
+
+la fée veut que le chevalier sache que le nain est méchant . (1 0.01 44)
+
+# SENTENCE_ID: 016
+
+la fée demande au chevalier si la reine veut que la dame sache que le nain est méchant . (1 0.00 63)
+
+# SENTENCE_ID: 017
+
+le chevalier rencontre le nain dans un bois . (1 0.01 29)
+
+# SENTENCE_ID: 018
+
+le chevalier attend dans le château . (1 0.01 23)
+
+# 18 sentences, 0.10 CPU secs total, 0.01 CPU secs max (06/03/16)
